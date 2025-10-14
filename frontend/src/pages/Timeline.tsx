@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { format } from 'date-fns';
 import { useAuthStore } from '../stores/authStore';
 import { useLocation } from 'react-router-dom';
+import { isBackendAvailable } from '../config/api';
+import { LocalStorageService } from '../services/storage';
 
 interface Entry {
   id: string;
@@ -41,6 +43,36 @@ const Timeline: React.FC = () => {
         setLoading(true);
         console.log('📥 Fetching timeline entries...');
         
+        // Check if backend is available
+        const hasBackend = await isBackendAvailable();
+        
+        if (!hasBackend) {
+          // Use localStorage
+          console.info('🔒 Loading timeline from localStorage');
+          const localEntries = LocalStorageService.getEntries();
+          
+          // Transform to expected format
+          const transformedEntries = localEntries.map(entry => ({
+            id: entry.id,
+            user_id: entry.userId,
+            transcript: entry.transcript,
+            emotion: entry.emotionalState?.dominant_emotion || 'neutral',
+            intensity: Object.values(entry.emotionalState?.emotions || {})[0] || 0.5,
+            confidence: entry.emotionalState?.confidence || 0.8,
+            created_at: entry.timestamp,
+            ai_analysis: {
+              reasoning: entry.insights?.recommendations?.join(', ')
+            }
+          }));
+          
+          setEntries(transformedEntries.sort((a, b) => 
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          ));
+          setLoading(false);
+          return;
+        }
+        
+        // Use backend API
         const response = await fetch('http://localhost:5000/api/entries', {
           headers: {
             'Authorization': `Bearer ${token || 'demo-token'}`

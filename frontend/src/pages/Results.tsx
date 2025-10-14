@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Heart, Users, MapPin, TrendingUp, Sparkles, ArrowRight, Volume2, MessageCircle, X } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { isBackendAvailable } from '../config/api'
+import { LocalStorageService } from '../services/storage'
 
 interface EmotionResult {
   id: string
@@ -44,6 +46,38 @@ const Results: React.FC = () => {
 
   const fetchResults = async () => {
     try {
+      // Check if backend is available
+      const hasBackend = await isBackendAvailable()
+      
+      if (!hasBackend) {
+        // Use localStorage
+        console.info('🔒 Loading from localStorage')
+        const entry = LocalStorageService.getEntry(entryId!)
+        
+        if (!entry) {
+          throw new Error('Entry not found')
+        }
+        
+        // Transform to expected format
+        setResult({
+          id: entry.id,
+          emotion: entry.emotionalState?.dominant_emotion || 'neutral',
+          intensity: Object.values(entry.emotionalState?.emotions || {})[0] || 0.5,
+          confidence: entry.emotionalState?.confidence || 0.8,
+          transcript: entry.transcript,
+          supportive_response: {
+            message: "Thank you for sharing. Your feelings are valid and important.",
+            tone: "supportive"
+          },
+          analysis_data: entry.emotionalState,
+          created_at: entry.timestamp,
+        })
+        
+        setLoading(false)
+        return
+      }
+      
+      // Use backend API
       const response = await fetch(`http://localhost:5000/api/entries/${entryId}`)
       
       if (!response.ok) {

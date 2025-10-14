@@ -5,6 +5,8 @@ import { Mic, Square, RotateCcw, Volume2, VolumeX } from 'lucide-react'
 import { useVoice } from '../contexts/VoiceContext'
 import { useAuthStore } from '../stores/authStore'
 import toast from 'react-hot-toast'
+import { isBackendAvailable } from '../config/api'
+import { LocalStorageService } from '../services/storage'
 
 // Voice session questions
 const DAILY_QUESTIONS = [
@@ -135,8 +137,45 @@ const VoiceSession: React.FC = () => {
       
       console.log('📝 Processing recording with transcript:', transcript)
       console.log('📊 Transcript length:', transcript?.length || 0)
+
+      // Check if backend is available
+      const hasBackend = await isBackendAvailable()
       
-      // Create FormData for audio upload
+      if (!hasBackend) {
+        // Use localStorage fallback
+        console.info('🔒 Using localStorage (offline mode)')
+        
+        setProcessingStage('Analyzing your emotions...')
+        await new Promise(resolve => setTimeout(resolve, 1500))
+        
+        const entryId = `entry-${Date.now()}`
+        const analysis = LocalStorageService.generateMockAnalysis(transcript || '')
+        
+        const entry = {
+          id: entryId,
+          userId: 'local-user',
+          timestamp: new Date().toISOString(),
+          transcript: transcript || '',
+          emotionalState: analysis,
+          insights: analysis.insights,
+        }
+        
+        LocalStorageService.saveEntry(entry)
+        
+        setProcessingStage('Complete!')
+        await new Promise(resolve => setTimeout(resolve, 500))
+        
+        setPhase('complete')
+        
+        // Navigate to results
+        setTimeout(() => {
+          navigate(`/results/${entryId}`)
+        }, 1500)
+        
+        return
+      }
+      
+      // Backend is available - use API
       const formData = new FormData()
       formData.append('audio', blob, 'voice_recording.webm')
       formData.append('transcript', transcript || '')
@@ -149,7 +188,6 @@ const VoiceSession: React.FC = () => {
         question: currentQuestion
       })
 
-      // Upload and analyze (no auth token needed - demo mode)
       const response = await fetch('http://localhost:5000/api/entries', {
         method: 'POST',
         body: formData,
