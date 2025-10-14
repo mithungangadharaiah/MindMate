@@ -32,7 +32,7 @@ const Timeline: React.FC = () => {
   const [entries, setEntries] = useState<Entry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { user } = useAuthStore();
+  const { user, token } = useAuthStore();
   const location = useLocation();
 
   useEffect(() => {
