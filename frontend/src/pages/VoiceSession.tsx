@@ -49,7 +49,7 @@ const VoiceSession: React.FC = () => {
 
   // Recording timer
   useEffect(() => {
-    let interval: NodeJS.Timeout
+    let interval: ReturnType<typeof setInterval>
     if (phase === 'recording' && isRecording) {
       interval = setInterval(() => {
         setRecordingTime(prev => {

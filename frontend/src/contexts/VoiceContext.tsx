@@ -80,8 +80,8 @@ export const VoiceProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     // Initialize speech recognition
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
-      recognitionRef.current = new SpeechRecognition()
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+      recognitionRef.current = new SpeechRecognition() as SpeechRecognition
       
       if (recognitionRef.current) {
         recognitionRef.current.continuous = true  // Keep listening for better continuous speech

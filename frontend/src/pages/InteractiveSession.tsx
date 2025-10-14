@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import { Mic, MessageCircle, Brain, Volume2 } from 'lucide-react'
+import { Mic, MessageCircle, Brain, Volume2, VolumeX, Square } from 'lucide-react'
 import { useVoice } from '../contexts/VoiceContext'
 import { useAuthStore } from '../stores/authStore'
 import toast from 'react-hot-toast'
@@ -20,13 +20,14 @@ const InteractiveSession: React.FC = () => {
   } = useVoice()
 
   const [conversationId, setConversationId] = useState<string | null>(null)
-  const [phase, setPhase] = useState<'starting' | 'listening' | 'recording' | 'thinking' | 'complete'>('starting')
+  const [phase, setPhase] = useState<'starting' | 'asking' | 'listening' | 'recording' | 'thinking' | 'complete'>('starting')
   const [currentQuestion, setCurrentQuestion] = useState('')
   const [questionNumber, setQuestionNumber] = useState(0)
   const [qaHistory, setQAHistory] = useState<any[]>([])
   const [currentEmotion, setCurrentEmotion] = useState('')
   const [recordingTime, setRecordingTime] = useState(0)
   const [silenceTimer, setSilenceTimer] = useState(0)
+  const [isMuted, setIsMuted] = useState(false)
   const lastTranscriptRef = useRef('')
   const silenceTimeoutRef = useRef<number>()
   const autoRecordTimeoutRef = useRef<number>()
