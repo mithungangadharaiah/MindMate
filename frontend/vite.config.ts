@@ -19,6 +19,7 @@ const httpsConfig = fs.existsSync('./.cert/key.pem') && fs.existsSync('./.cert/c
   : undefined
 
 export default defineConfig({
+  base: '/MindMate/', // GitHub Pages base URL
   plugins: [
     react(),
     VitePWA({
