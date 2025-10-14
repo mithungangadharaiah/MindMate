@@ -1,0 +1,222 @@
+# 🔒 MindMate - Security & Privacy Protection
+# This file prevents sensitive data from being committed to GitHub
+
+# ========================================
+# 🔑 CRITICAL: API Keys & Secrets
+# ========================================
+.env
+.env.local
+.env.*.local
+*.env
+**/.env
+**/backend/.env
+**/frontend/.env
+
+# API Keys (extra protection)
+**/api-keys.txt
+**/secrets.txt
+**/*secret*
+**/*apikey*
+
+# ========================================
+# 📊 Local Databases & User Data
+# ========================================
+# Local JSON database files
+backend/data/*.json
+backend/data/
+**/data/users.json
+**/data/entries.json
+**/data/places.json
+
+# SQLite databases
+*.db
+*.sqlite
+*.sqlite3
+
+# ========================================
+# 📦 Dependencies
+# ========================================
+# Node modules
+node_modules/
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Package manager lock files (optional, some teams commit these)
+# Uncomment if you want to ignore:
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# ========================================
+# 🏗️ Build Outputs
+# ========================================
+# Frontend build
+dist/
+dist-ssr/
+build/
+**/dist/
+**/build/
+
+# Vite cache
+.vite/
+**/node_modules/.vite/
+
+# ========================================
+# 🔧 Editor & IDE Files
+# ========================================
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# JetBrains IDEs (WebStorm, IntelliJ, etc.)
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# ========================================
+# 🖥️ Operating System Files
+# ========================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# ========================================
+# 🧪 Testing & Coverage
+# ========================================
+coverage/
+*.lcov
+.nyc_output/
+test-results/
+playwright-report/
+.coverage
+htmlcov/
+
+# ========================================
+# 📝 Logs & Temporary Files
+# ========================================
+# Log files
+*.log
+logs/
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+.temp/
+tmp/
+
+# ========================================
+# 🔐 SSL Certificates (for HTTPS setup)
+# ========================================
+# mkcert certificates
+*.pem
+*.key
+*.crt
+localhost+*.pem
+localhost+*.key
+
+# Let's Encrypt
+certbot/
+ssl/
+certificates/
+
+# ========================================
+# 🌐 Next.js / React Specific
+# ========================================
+.next/
+out/
+.cache/
+
+# ========================================
+# 🐳 Docker (if you add it later)
+# ========================================
+docker-compose.override.yml
+.dockerignore
+
+# ========================================
+# 📱 Mobile App (if you add it later)
+# ========================================
+# Capacitor / Cordova
+android/
+ios/
+.capacitor/
+
+# ========================================
+# 🎯 MindMate Specific
+# ========================================
+# User recordings (if saved locally)
+**/recordings/
+**/audio/
+*.wav
+*.mp3
+*.ogg
+*.webm
+
+# Backup files
+*.backup
+*.bak
+*-backup.*
+
+# Local configuration overrides
+config.local.js
+config.local.json
+
+# ========================================
+# ✅ IMPORTANT: Files to ALWAYS COMMIT
+# ========================================
+# These should NOT be ignored:
+# - README.md
+# - package.json
+# - package-lock.json (team preference)
+# - .env.example (template file, no real keys)
+# - Documentation files
+# - Source code files
+
+# ========================================
+# 📋 To check what's being tracked:
+# Run: git status
+# Run: git ls-files
+# ========================================

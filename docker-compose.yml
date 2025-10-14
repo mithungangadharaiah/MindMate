@@ -1,0 +1,122 @@
+version: '3.8'
+
+services:
+  # Frontend - React PWA
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:5000
+      - VITE_SUPABASE_URL=${SUPABASE_URL}
+      - VITE_SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  # Backend - Node.js API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=development
+      - PORT=5000
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/mindmate
+      - STORAGE_ENDPOINT=http://minio:9000
+      - STORAGE_ACCESS_KEY=minioadmin
+      - STORAGE_SECRET_KEY=minioadmin
+      - JWT_SECRET=dev-secret-key-change-in-production
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - audio_storage:/app/uploads
+    depends_on:
+      - postgres
+      - minio
+      - whisper
+    restart: unless-stopped
+
+  # Database - PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=mindmate
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+
+  # Object Storage - MinIO (S3-compatible)
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    restart: unless-stopped
+
+  # Audio Processing - Whisper (Self-hosted ASR)
+  whisper:
+    build:
+      context: ./backend/services/whisper
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - MODEL_NAME=base
+      - MAX_AUDIO_SIZE=50MB
+    volumes:
+      - whisper_models:/app/models
+    restart: unless-stopped
+
+  # Emotion Analysis Service
+  emotion:
+    build:
+      context: ./backend/services/emotion
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - MODEL_NAME=j-hartmann/emotion-english-distilroberta-base
+      - DEVICE=cpu
+    volumes:
+      - emotion_models:/app/models
+    restart: unless-stopped
+
+  # Redis for caching and sessions
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  minio_data:
+  audio_storage:
+  whisper_models:
+  emotion_models:
+  redis_data:
+
+networks:
+  default:
+    name: mindmate-network

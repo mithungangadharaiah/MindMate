@@ -1,0 +1,193 @@
+/* Import MindMate Design System */
+@import './styles/design-system.css';
+
+/* Legacy compatibility classes for React components */
+.min-h-screen { 
+  min-height: 100vh; 
+}
+
+.bg-gray-50 { 
+  background-color: var(--color-background-primary); 
+}
+
+.text-gray-900 { 
+  color: var(--color-text-primary); 
+}
+
+.bg-gradient-primary { 
+  background: linear-gradient(135deg, var(--color-primary-500), var(--color-secondary-500)); 
+}
+
+.flex { 
+  display: flex; 
+}
+
+.items-center { 
+  align-items: center; 
+}
+
+.justify-center { 
+  justify-content: center; 
+}
+
+.text-center { 
+  text-align: center; 
+}
+
+.text-white { 
+  color: var(--color-text-inverse); 
+}
+
+.mb-4 { 
+  margin-bottom: var(--spacing-lg); 
+}
+
+.mb-2 { 
+  margin-bottom: var(--spacing-sm); 
+}
+
+.text-2xl { 
+  font-size: var(--font-size-2xl); 
+}
+
+.font-bold { 
+  font-weight: var(--font-weight-bold); 
+}
+
+.rounded-full { 
+  border-radius: var(--border-radius-full); 
+}
+
+.w-16 { 
+  width: 64px; 
+}
+
+.h-16 { 
+  height: 64px; 
+}
+
+.mx-auto { 
+  margin-left: auto; 
+  margin-right: auto; 
+}
+
+.shadow-lg { 
+  box-shadow: var(--shadow-lg); 
+}
+
+.transform { 
+  transform: translateZ(0); 
+}
+
+.hover\:scale-105:hover { 
+  transform: scale(1.05); 
+}
+
+.transition-all { 
+  transition: all var(--duration-normal) var(--easing-smooth); 
+}
+
+.px-6 { 
+  padding-left: var(--spacing-xl); 
+  padding-right: var(--spacing-xl); 
+}
+
+.py-3 { 
+  padding-top: var(--spacing-md); 
+  padding-bottom: var(--spacing-md); 
+}
+
+.font-medium { 
+  font-weight: var(--font-weight-medium); 
+}
+
+.bg-white { 
+  background-color: white; 
+}
+
+.text-gray-700 { 
+  color: var(--color-text-secondary); 
+}
+
+.rounded-2xl { 
+  border-radius: var(--border-radius-lg); 
+}
+
+.p-6 { 
+  padding: var(--spacing-xl); 
+}
+
+.w-24 { 
+  width: 96px; 
+}
+
+.h-24 { 
+  height: 96px; 
+}
+
+.px-3 { 
+  padding-left: var(--spacing-md); 
+  padding-right: var(--spacing-md); 
+}
+
+.py-1 { 
+  padding-top: var(--spacing-xs); 
+  padding-bottom: var(--spacing-xs); 
+}
+
+.text-sm { 
+  font-size: var(--font-size-sm); 
+}
+
+.space-x-1 > * + * { 
+  margin-left: var(--spacing-xs); 
+}
+
+.w-1 { 
+  width: 4px; 
+}
+
+.w-2 { 
+  width: 8px; 
+}
+
+.h-2 { 
+  height: 8px; 
+}
+
+.bg-current { 
+  background-color: currentColor; 
+}
+
+/* Smooth focus outlines */
+*:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background-secondary);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-300);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-400);
+}
+
+/* Disable text selection on interactive elements */
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

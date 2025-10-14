@@ -1,0 +1,29 @@
+[
+  {
+    "id": "54424761-3ec4-47b9-91f0-123cb6f5d0d7",
+    "question_text": "Tell me in about thirty seconds: what was one moment from today that sticks with you?",
+    "category": "reflection",
+    "difficulty_level": 2,
+    "mood_focus": "neutral",
+    "is_active": true,
+    "created_at": "2025-10-12T20:03:11.270Z"
+  },
+  {
+    "id": "ad4e6139-b3e4-47aa-8ad4-daf7f33121e5",
+    "question_text": "How are you feeling right now, and what's been on your mind today?",
+    "category": "emotions",
+    "difficulty_level": 1,
+    "mood_focus": "neutral",
+    "is_active": true,
+    "created_at": "2025-10-12T20:03:11.270Z"
+  },
+  {
+    "id": "061fbaf1-4520-44f2-a283-ecbf2334490b",
+    "question_text": "What's something from today that you'd like to talk through with me?",
+    "category": "processing",
+    "difficulty_level": 3,
+    "mood_focus": "neutral",
+    "is_active": true,
+    "created_at": "2025-10-12T20:03:11.270Z"
+  }
+]
